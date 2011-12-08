@@ -1,0 +1,31 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="System.IO" #>
+<# 
+	string theFile = this.Host.ResolvePath("FirstClass.template.cs");
+	
+
+	using (StreamReader sr = new StreamReader(theFile))
+    {
+        string line;
+		string attributeLine = null;
+        
+        while ((line = sr.ReadLine()) != null)
+        {
+			var trimmed = line.Trim();
+			if (trimmed.StartsWith("[") && trimmed.EndsWith("]"))
+				attributeLine = line;
+
+			if (!string.IsNullOrEmpty(attributeLine) 
+				&& attributeLine != line
+				&& line.Contains("get"))
+			{
+				WriteLine(attributeLine);
+			}
+			if (attributeLine != line)
+			{
+				WriteLine(line);
+			}
+        }
+    }
+#>
