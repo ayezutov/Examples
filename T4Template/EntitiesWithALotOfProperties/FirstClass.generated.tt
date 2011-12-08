@@ -2,9 +2,8 @@
 <#@ output extension=".cs" #>
 <#@ import namespace="System.IO" #>
 <# 
-	string theFile = this.Host.ResolvePath("FirstClass.template.cs");
-	
-
+	string theFile = this.Host.TemplateFile.Replace(".generated.tt", ".template.cs");
+		
 	using (StreamReader sr = new StreamReader(theFile))
     {
         string line;
